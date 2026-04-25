@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     // عند الضغط على أيقونة البحث
 const searchIcon = document.getElementById('searchIcon');
@@ -146,7 +145,6 @@ document.getElementById('searchInputFull').addEventListener('input', function(e)
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       searchPage.classList.remove('active');
-      closeNotifications();
     }
   });
 });
@@ -260,6 +258,9 @@ function playVideo(id, title, isShort = false) {
         const iframe = document.getElementById('main-iframe');
         const titleElement = document.getElementById('video-title');
         const nnc = document.getElementById('nnc');
+        //فتح القناة عند الضغط علي اسمها او الصورة
+        document.getElementById('player-channel-img').onclick = () => openChannelPage(currentPlayingVideo.channelId);
+        document.getElementById('player-channel-name').onclick = () => openChannelPage(currentPlayingVideo.channelId);
 
 
         // إظهار القسم وتحديث البيانات
@@ -270,7 +271,7 @@ function playVideo(id, title, isShort = false) {
 
 
         // إعادة بناء القائمة بالأسفل (لتكون كاقتراحات)
-        renderList(allVideos.slice(0, 30),id);
+        renderList(allVideos.slice(0, 50),id);
 
         // الصعود للأعلى لرؤية الفيديو
         window.scrollTo({ top: 0, behavior: 'smooth' });}
@@ -290,7 +291,7 @@ function playVideo(id, title, isShort = false) {
 
 
         // إعادة بناء القائمة بالأسفل (لتكون كاقتراحات)
-        renderShortsTab(allVideos.slice(0, 30),id);
+        renderShortsTab(allVideos.slice(0, 50),id);
 
         // الصعود للأعلى لرؤية الفيديو
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -333,7 +334,7 @@ function filterSuggestions(type,id) {
     // إزالة الفيديو الحالي من الاقتراحات
 
     
-    renderList(filtered.slice(0, 30),id);
+    renderList(filtered.slice(0, 50),id);
 }
 
 // 1. دالة فتح صفحة القناة
@@ -379,6 +380,7 @@ function renderChannelVideos(videos) {
                 const tabPanes = document.querySelectorAll('.tab-pane');
                 tabPanes.forEach(pane => pane.classList.remove('active'));
                 document.querySelector(`[data-tab="home"]`).classList.add('active');
+                document.querySelector('.bottom-nav').style.display = 'block';
         };
         card.innerHTML = `
             <div class="thumbnail-container" style="position: relative;">
@@ -396,11 +398,15 @@ function renderChannelVideos(videos) {
 // 3. دالة الخروج من صفحة القناة
 function closeChannelPage() {
     document.querySelector('.bottom-nav').style.display = 'flex';
-    document.querySelector('.categories').style.display = 'flex';
+    // document.querySelector('.categories').style.display = 'flex';
     // العودة لتبويب الاشتراكات (أو الرئيسية حسب رغبتك)
     const tabPanes = document.querySelectorAll('.tab-pane');
     tabPanes.forEach(pane => pane.classList.remove('active'));
-    document.querySelector(`[data-tab="subscriptions"]`).classList.add('active');
+    document.querySelector(`[data-tab="home"]`).classList.add('active');
+    document.getElementById('.nav-item.h').classList.add('active');
+    document.getElementById('.nav-item.s').classList.remove('active');
+    document.getElementById('.nav-item.y').classList.remove('active');
+    document.getElementById('.nav-item.c').classList.remove('active');
 }
 
 // دالة لعرض القنوات في النافذة الخاصة بها
