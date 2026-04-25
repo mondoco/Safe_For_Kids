@@ -1,0 +1,439 @@
+
+body {
+  margin: 0;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  padding-bottom: 70px; /* Space for bottom nav */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: #0f0f0f;
+  z-index: 1000;
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.search-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #0f0f0f;
+  z-index: 2500;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-page.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-header {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0f0f0f;
+  border-bottom: 1px solid #333;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.back-btn {
+  width: 24px;
+  fill: white;
+  cursor: pointer;
+}
+
+.search-container-full {
+  width: 100%;
+  position: relative;
+  min-width: 0;
+}
+
+.search-input-full {
+  width: 100%;
+  padding: clamp(8px, 2vw, 12px) clamp(40px, 5vw, 50px) clamp(8px, 2vw, 12px) clamp(10px, 3vw, 15px);
+  background: #212121;
+  border: 1px solid #333;
+  border-radius: 25px;
+  color: white;
+  font-size: clamp(14px, 2.5vw, 16px);
+  box-sizing: border-box; /* لضمان أن الحشو لا يزيد من العرض الإجمالي */
+  transition: all 0.3s ease; /* لإضافة تأثير انتقالي سلس */
+}
+
+.mic-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  fill: #aaa;
+}
+
+.search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  color: #aaa;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo img {
+  height: 22px;
+}
+
+.yt-text {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.header-icons svg {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  fill: white;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 30px 8px 10px;
+  background: #212121;
+  border: 1px solid #333;
+  border-radius: 20px;
+  color: white;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+}
+
+.search-input.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  fill: #aaa;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.notifications-icon {
+  width: 24px;
+  top: 2px;
+  left:30px;
+  fill: white;
+  cursor: pointer;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* CATEGORIES (kept but empty/ready for use) */
+.categories {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px;
+  background: #191919;
+}
+
+.chip {
+  background: #272727;
+  padding: 6px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.chip.active {
+  background: white;
+  color: black;
+}
+
+/* MAIN CONTENT AREA (emptied videos/shorts) */
+.main-content {
+  padding: 10px;
+  padding-bottom: 70px; /* Space for bottom nav */
+  min-height: calc(100vh - 200px);
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: clamp(60px, 10vh, 70px);
+  background: #0f0f0f;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #222;
+  z-index: 999;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(9px, 2vw, 10px);
+  color: #aaa;
+  gap: clamp(2px, 1vw, 3px);
+  cursor: pointer;
+  transition: 0.2s;
+  flex: 1;
+  height: 100%;
+  padding: 5px 0;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-item span {
+  font-size: clamp(12px, 2.2vw, 11px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.nav-item svg {
+  width: clamp(25px, 4vw, 24px);
+  height: clamp(25px, 4vw, 24px);
+  stroke: #aaa;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-item.active svg {
+  stroke: #fff;
+}
+
+.nav-item.active {
+  color: #fff;
+}
+
+/* Center Create button */
+.nav-create {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(40px, 7vw, 56px);
+  height: clamp(40px, 7vw, 56px);
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  z-index: 1;
+}
+
+.nav-create:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+.nav-create svg {
+  width: clamp(18px, 3.5vw, 22px);
+  height: clamp(18px, 3.5vw, 22px);
+  stroke: black;
+  stroke-width: 2.5;
+}
+
+/* للشاشات الصغيرة جدًا */
+@media (max-width: 320px) {
+  .nav-item span {
+    display: none;
+  }
+  
+  .nav-item svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* للشاشات الكبيرة جدًا */
+@media (min-width: 768px) {
+  .bottom-nav {
+    max-width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+
+
+/* Touch feedback */
+.nav-item:active, .nav-create:active {
+  transform: scale(0.95);
+}
+
+/* Chip clickable */
+.chip {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Tab Panes */
+.tab-pane {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: opacity 0.3s ease;
+}
+
+.tab-pane.active {
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+/* المشغل - يظهر فقط عند اختيار فيديو */
+#player-section { display: none; width: 100%; background: #000; position: sticky; top: 0; z-index: 100; }
+.video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; }
+.video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+#video-title { padding: 15px; font-size: 18px; font-weight: bold; }
+
+/* قائمة الفيديوهات - تأخذ عرض الشاشة */
+.video-grid { display: flex; flex-direction: column; width: 100%; }
+.video-card { width: 100%; margin-bottom: 10px; cursor: pointer; }
+.video-card img { width: 100%; display: block; }
+.info { padding: 10px; }
+.title { font-size: 14px; display: -webkit-box;  -webkit-box-orient: vertical; overflow: hidden; }
+.channel { color: #aaa; font-size: 12px; margin-top: 4px; }
+
+.video-card {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent; /* يمنع الوميض الأزرق عند الضغط في الموبايل */
+    position: relative; /* لضمان أن العناصر داخلها لا تمنع وصول الضغطة */
+}
+
+.categories {
+    display: flex;
+    overflow-x: auto; /* يسمح بالتمرير يميناً ويساراً */
+    white-space: nowrap;
+    padding: 10px;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch; /* تمرير ناعم على الآيفون */
+}
+
+.categories::-webkit-scrollbar {
+    display: none; /* إخفاء شريط التمرير لشكل أنظف */
+}
+
+.chip {
+    -webkit-tap-highlight-color: transparent; /* يمنع الوميض الأزرق عند الضغط في الموبايل */
+    padding: 8px 16px;
+    background: #272727;
+    color: white;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    flex: 0 0 auto; /* يمنع انكماش الأزرار */
+}
+
+.chip.active {
+    background: white;
+    color: black;
+}
+.channels-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: #0f0f0f;
+}
+
+.channel-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #222;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent; /* لمنع الوميض الأزرق عند الضغط في الموبايل */
+}
+
+.channel-item:active {
+    background: #272727; /* تأثير عند الضغط بالموبايل */
+}
+#player-shorts-section { display: none; width: 100%; background: #000; position: sticky; top: 0; z-index: 100; }
+.button{
+  -webkit-tap-highlight-color: transparent; /* لمنع الوميض الأزرق عند الضغط في الموبايل */
+}
+
+.sug {
+    display: flex;
+    overflow-x: auto; /* يسمح بالتمرير يميناً ويساراً */
+    white-space: nowrap;
+    padding: 10px;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch; /* تمرير ناعم على الآيفون */
+}
+
+.sug::-webkit-scrollbar {
+    display: none; /* إخفاء شريط التمرير لشكل أنظف */
+}
+
+.s-chip {
+    -webkit-tap-highlight-color: transparent; /* يمنع الوميض الأزرق عند الضغط في الموبايل */
+    padding: 8px 16px;
+    background: #272727;
+    color: white;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    flex: 0 0 auto; /* يمنع انكماش الأزرار */
+}
+
+.s-chip.active {
+    background: white;
+    color: black;
+}
