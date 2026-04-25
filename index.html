@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>YouTube For Kids</title>
+<title>YouTube Safe For Kids</title>
 <link rel="stylesheet" href="styles.css" />
 <script src="script.js"></script>
 </head>
@@ -85,21 +85,22 @@
               <hr style="border: 0.5px solid #333;">
               <div style="padding-left: 15px; color: #aaa; font-size: 18px; font-weight: bold;">اقتراحات لك:</div>
           </div> -->
-<div id="player-section" style="display:none;">
-    <iframe id="main-iframe" width="100%" height="250" src="" frameborder="0" allowfullscreen></iframe>
-    
+<div id="player-section" style=" background-color: #0f0f0f;  display:none;">
+              <div class="video-wrapper">
+                  <iframe id="main-iframe" src="" allowfullscreen allow="autoplay"></iframe>
+              </div>
     <div style="padding: 3px;">
-        <h2 id="video-title" style="color:white; font-size:16px;"></h2>
+        <h2 id="video-title" style=" font-size:16px;"></h2>
         <div style="display:flex; align-items:center; gap:10px; margin:8px 3px;">
             <img id="player-channel-img" src="" style="width:40px; height:40px; border-radius:50%;">
             <div style="flex:1;">
-                <div id="player-channel-name" style="color:white; font-weight:bold;"></div>
+                <div id="player-channel-name" style="  font-weight:bold;"></div>
                 <span id="player-channel-subs" style="color:#aaa; font-size:12px;"></span>
             </div>
             
             <button style="background:white; border-radius:20px; padding:5px 15px; border:none; font-weight:bold;">مشترك</button>
         </div>
-<div>اقتراحات لك:</div>
+<div style="padding: 2px 2px; font-weight: 100 ;">اقتراحات لك:</div>
         <div class="sug" style="display:flex; gap:8px; overflow-x:auto; padding-bottom:10px;">
             <div class="s-chip active" onclick="filterSuggestions('all')">الكل</div>
             <div class="s-chip" onclick="filterSuggestions('same-channel')">من القناة</div>
@@ -115,11 +116,11 @@
     <!-- Shorts Tab -->
     <div class="tab-pane" data-tab="shorts">
       <div class="container">
-          <div id="player-shorts-section">
+          <div id="player-shorts-section" style=" background-color: #0f0f0f;  display:none;">
               <div class="video-wrapper">
                   <iframe id="shorts-iframe" src="" allowfullscreen allow="autoplay"></iframe>
               </div>
-              <div id="short-title"></div>
+              <h2 id="short-title" style=" font-size:16px;"></h2>
               <hr style="border: 0.5px solid #333;">
               <div style="padding-left: 15px; color: #aaa; font-size: 18px; font-weight: bold;">اقتراحات لك:</div>
           </div>
