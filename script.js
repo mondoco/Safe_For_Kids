@@ -121,6 +121,15 @@ document.getElementById('searchInputFull').addEventListener('input', function(e)
         }else{
             document.querySelector('.categories').style.display = 'flex';
         }
+        if (index === 1) {
+            renderShortsTab();}
+
+        if (index === 0) {
+            renderList(allVideos);
+        }
+        if (index === 2) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         
         tabPanes.forEach(pane => pane.classList.remove('active'));
         const tabNames = ['home', 'shorts', 'subscriptions', 'you'];
@@ -164,27 +173,6 @@ function filterVideos(category, element) {
     if (iframe) iframe.src = "";
 }
 
-// تعديل بسيط على renderList لضمان أنها تستقبل أي مصفوفة نرسلها لها
-// function renderList(videosToDisplay) {
-//     const container = document.getElementById('video-list-container');
-//     if (!container) return;
-    
-//     container.innerHTML = '';
-    
-//     if (videosToDisplay.length === 0) {
-//         container.innerHTML = '<div style="color:white; text-align:center; padding:50px;">لا توجد فيديوهات في هذا القسم حالياً</div>';
-//         return;
-//     }
-
-//     videosToDisplay.forEach(video => {
-//         // ... نفس كود إنشاء الـ card السابق ...
-//         const card = document.createElement('div');
-//         card.className = 'video-card';
-//         card.onclick = () => playVideo(video.id, video.title);
-//         // ... (إضافة محتوى الـ HTML الخاص بالكارت) ...
-//         container.appendChild(card);
-//     });
-// }
 
 let allVideos = [];
 let channelsData = {}; // سنخزن فيها صور القنوات
@@ -215,17 +203,21 @@ async function loadData() {
         }
     
     renderList(allVideos);
-    renderChannels(); // عرض القنوات في تبويب الاشتراكات
-    renderShortsTab(); // عرض الفيديوهات القصيرة في تبويب الشورتس
+    renderChannels(); // عرض القنوات في تبويب الاشتراكات// عرض الفيديوهات القصيرة في تبويب الشورتس
 }
 // تشغيل الدالة عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', loadData);
 
-function renderList(videos) {
+function renderList(videos, id = null) {
     shuffleArray(videos); // خلط الفيديوهات لعرضها بشكل عشوائي
+    if (id) {
+        // Remove the currently playing video from the list to avoid showing it in suggestions
+        videos = videos.filter(v => v.id !== id);
+    }
+
     const container = document.getElementById('video-list-container');
     container.innerHTML = '';
-
+    document.getElementById('shorts-container').innerHTML = '';
     videos.forEach(video => {
         // التاكد من ان الفيديو اكبر من 3 دقائق
         if (isShortVideo(video.duration, 180)) return;
@@ -298,7 +290,7 @@ function playVideo(id, title, isShort = false) {
 
 
         // إعادة بناء القائمة بالأسفل (لتكون كاقتراحات)
-        renderList(allVideos.slice(0, 30),id);
+        renderShortsTab(allVideos.slice(0, 30),id);
 
         // الصعود للأعلى لرؤية الفيديو
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -471,12 +463,18 @@ function isShortVideo(durationStr,i=300) {
 }
 
 
-function renderShortsTab() {
+function renderShortsTab(videos=allVideos,id) {
     const container = document.getElementById('shorts-container'); // تأكد من الـ ID في الـ HTML
     if (!container) return;
+    document.getElementById('video-list-container').innerHTML = '';
+
+    if (id) {
+        // Remove the currently playing video from the list to avoid showing it in suggestions
+        videos = videos.filter(v => v.id !== id);
+    }
 
     // فلترة المصفوفة الأصلية للفيديوهات الأقل من 5 دقائق
-    const shortsVideos = allVideos.filter(video => isShortVideo(video.duration));
+    const shortsVideos = videos.filter(video => isShortVideo(video.duration));
 
     container.innerHTML = '';
 
